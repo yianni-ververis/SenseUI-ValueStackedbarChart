@@ -6,7 +6,7 @@ A simple Stacked bar Chart based on the value of the measure and not the number 
 - Desktop - Unzip at the extension folder (C:\Users\<user>\Documents\Qlik\Sense\Extensions\SenseUI-ValueStackedbarChart) 
 - Server - Upload the zip file
 
-## Usage
+## Usage 
 
 #### Dimensions and Measures
 - Set 1 dimension and 1 measure
