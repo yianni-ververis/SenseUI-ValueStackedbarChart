@@ -238,11 +238,6 @@ define( [
 			html += `
 				</div>`;
 		}
-		// $( document ).ready(function() {
-		// })
-		// $( "#kgrra_inner div" ).click(function(e) {
-		// 	console.log(e)
-		// });
 
 		// TEMPLATE
 		vars.template = `
@@ -256,30 +251,12 @@ define( [
 		// Write Css and html
 		$("<style>").html(vars.css).appendTo("head")
 		$element.html(vars.template)
-
-		console.log(vars)
-		// LEGEND
-		// if (vars.legend) {
-		// 	var displayLegend = `<div class="column"><div class="box measure1"></div>${vars.measure1}</div>`;
-		// 	if (vars.measure2) {
-		// 		displayLegend += `<div class="column"><div class="box measure2"></div>${vars.measure2}</div>`;
-		// 	}
-		// 	if (vars.measure3) {
-		// 		displayLegend += `<div class="column"><div class="box measure3"></div>${vars.measure3}</div>`;
-		// 	}
-		// 	svg.append("foreignObject")
-		// 		.attr('width', 500)
-		// 		.attr('height', 50)
-		// 		.attr("y", `${height+vars.margin.bottom-15}`)
-		// 	.append("xhtml:div")
-		// 		.attr("class", "legend")
-		// 		.html(displayLegend);
-		// }
 		
-
-		$( `#${vars.id}_inner div` ).click(function(e) {
-			vars.this.backendApi.selectValues(0, [$(this).data("qelementnum")], true);
-		});
+		if (vars.enableSelections){
+			$( `#${vars.id}_inner div` ).click(function(e) {
+				vars.this.backendApi.selectValues(0, [$(this).data("qelementnum")], true);
+			});
+		}
 		
 		console.info(`%c ${vars.name}: `, 'color: red', `v ${vars.v}`)
 		//needed for export
@@ -295,10 +272,7 @@ define( [
 		}
 		return num;
 	}
-
-	me.select = (qElemNum) => {
-		console.log(qElemNum)
-	}
+	
 	// define HTML template	
 	// me.template = '';
 
