@@ -86,6 +86,20 @@ define( [
 										label: "Off"
 									}],
 									defaultValue: true
+								},
+								precision: {
+									type: "boolean",
+									component: "switch",
+									label: "Display decimals?",
+									ref: "vars.precision",
+									options: [{
+										value: true,
+										label: "Yes"
+									}, {
+										value: false,
+										label: "No"
+									}],
+									defaultValue: false
 								}
 							},
 						},
@@ -154,7 +168,7 @@ define( [
 
 	me.paint = function($element,layout) {
 		var vars = $.extend({
-			v: '1.0',
+			v: '1.1',
 			id: layout.qInfo.qId,
 			name: 'SenseUI-ValueStackedBarChart',
 			width: $element.width(),
@@ -210,7 +224,7 @@ define( [
 		// vars.data = layout.qHyperCube.qDataPages[0].qMatrix;
 		vars.data = layout.qHyperCube.qDataPages[0].qMatrix.map(function(value, index) {
 			total += value[1].qNum;	
-			var num = me.roundNumber(value[1].qNum)		
+			var num = me.roundNumber(value[1].qNum, vars.precision)		
 			return {
 				"dimension":value[0].qText,
 				"qElemNumber":value[0].qElemNumber,
@@ -263,12 +277,17 @@ define( [
 		return qlik.Promise.resolve()
 	};
 
-	me.roundNumber = (num) => {
-		num = Math.round(num);
-		if (num >= 1000 && num<1000000) {
-			num = Math.round(num/1000) + 'K'
-		} else if (num >= 1000000) {
-			num = Math.round(num/1000000) + 'M'
+	me.roundNumber = (num, precision) => {
+		//check if the string passed is number or contains formatting like 13%
+		if (/^[0-9.]+$/.test(num)) {
+			num = (precision) ? parseFloat(num).toFixed(2) : Math.round(num);
+			if (num >= 1000 && num<1000000) {
+				num = (precision) ? parseFloat(num/1000).toFixed(2)  + 'K' : Math.round(num/1000) + 'K';
+			} else if (num >= 1000000 && num<1000000000) {
+				num = (precision) ? parseFloat(num/1000000).toFixed(2)  + 'M' : Math.round(num/1000000) + 'M';
+			} else if (num >= 1000000000) {
+				num = (precision) ? parseFloat(num/1000000000).toFixed(2)  + 'G' : Math.round(num/1000000000) + 'G';
+			}
 		}
 		return num;
 	}
